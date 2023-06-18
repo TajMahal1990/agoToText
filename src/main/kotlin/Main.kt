@@ -1,19 +1,35 @@
-fun main() {
-    println("Приложение меломан")
-    var amountSum = 100000
-    var skidka = 100 //скидка при покупку от 1001 до 10000 рублей
 
-    if (amountSum >= 0 && amountSum <= 1000) {
-        println("Скидка не предоставляется")
-    } else if (amountSum >= 1001 && amountSum <= 10_000) {
-        println("Скидка составит 100 рублей")
-        print("Сумма покупки вместе со скидкой составит ")
-        print(amountSum - 100)
-        print(" рублей")
-    } else if (amountSum >= 10_001) {
-        println("Вам предоставлена скидка 5%")
-        print("Сумма покупки вместе со скидкой составит ")
-        print(amountSum - (amountSum / 100) * 5)
-        print(" рублей")
-    } else println("Ошибка при указании суммы")
+
+fun main() {
+    println("Приложение подчета коммисии")
+
+    print(commission("МИР", 36, 0))
+    print(" рублей составит коммиссия ")
+
 }
+fun commission(typeCard: String, transfer: Int, previous: Int): Int {
+    return when (typeCard) {
+        "MasterCard", "Maestro" -> when {
+            transfer > 150_000 || transfer + previous > 600_000 -> -1
+            transfer in 301..74999 -> 0
+            else -> (transfer * 0.006f).toInt() + 20 // коммисия составит 0.6% + 20 рублей
+
+        }
+        "Viza", "МИР" -> when {
+            transfer > 150_000 || transfer + previous > 600_000 -> -1
+            (transfer * 0.0075f).toInt() <= 35 -> 35 // минимальная сумма коммисии 35 рублей
+            else -> (transfer * 0.0075f).toInt() // коммисия составит 0.75%
+        }
+        "VK Pay" -> when {
+            transfer > 15_000 || transfer + previous > 150_000 -> -1
+            else -> (transfer * 0.0f).toInt() // нет коммисии
+        }
+
+        else -> {
+            -1
+        }
+    }
+    }
+
+
+
