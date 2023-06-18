@@ -1,37 +1,30 @@
 
-
 fun main() {
-    println("Приложение подчета коммисии")
+    println("Приложение: Только что")
 
-    print(commission("МИР", 36, 0))
-    print(" рублей составит коммиссия ")
-    println("Bue")
-
+    println(agoToText(times))
 }
-fun commission(typeCard: String, transfer: Int, previous: Int): Int {
-    return when (typeCard) {
-        "MasterCard", "Maestro" -> when {
-            transfer > 150_000 || transfer + previous > 600_000 -> -1
-            transfer in 301..74999 -> 0
-            else -> (transfer * 0.006f).toInt() + 20 // коммисия составит 0.6% + 20 рублей
+val times = 1260 //нужно указать время в секундах
+val minutes = times / 60 // переводим секунды в минуты
+val hours = minutes / 60 // переводим минуты в часы
 
-        }
-        "Viza", "МИР" -> when {
-            transfer > 150_000 || transfer + previous > 600_000 -> -1
-            (transfer * 0.0075f).toInt() <= 35 -> 35 // минимальная сумма коммисии 35 рублей
-            else -> (transfer * 0.0075f).toInt() // коммисия составит 0.75%
-        }
-        "VK Pay" -> when {
-            transfer > 15_000 || transfer + previous > 150_000 -> -1
-            else -> (transfer * 0.0f).toInt() // нет коммисии
-        }
+fun agoToText(timeSeconds: Int) = when {
+    times > 3 * 24 * 60 * 60 -> "Был(а) давно"
+    times > 2 * 24 * 60 * 60 -> "Был(а) позавчера"
+    times > 24 * 60 * 60 -> "Был(а) вчера"
+    times > 60 * 60 -> "Был(а) в сети $hours час${timeHours(hours)} назад"
+    times > 60 -> "Был(а) в сети $minutes минут${timeMinutes(minutes)} назад"
+    else -> "Был(а) только что"
+}
 
-        else -> {
-            -1
-        }
-    }
+fun timeMinutes(minutes: Int) = when {
+    minutes % 10 == 1 && minutes % 100 != 11 -> "у"
+    minutes % 10 in 2..4 && minutes % 100 !in 12..14 -> "ы"
+    else -> ""
+}
 
-    }
-
-
-
+fun timeHours(hours: Int) = when {
+    hours == 1 || hours % 100 == 21 -> ""
+    hours in 2..4 || hours % 100 > 21 -> "а"
+    else -> "ов"
+}
