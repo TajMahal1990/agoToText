@@ -5,6 +5,7 @@ fun main() {
 
     print(commission("МИР", 36, 0))
     print(" рублей составит коммиссия ")
+    println("Bue")
 
 }
 fun commission(typeCard: String, transfer: Int, previous: Int): Int {
@@ -29,6 +30,7 @@ fun commission(typeCard: String, transfer: Int, previous: Int): Int {
             -1
         }
     }
+
     }
 
 
